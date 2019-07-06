@@ -10,13 +10,13 @@ main_menu:
     material: PURPLE_STAINED_GLASS_PANE
     position: 13
     colour: b
-    bind: None
+    bind: inprogress
   look_party:
     name: Look For A Party.
     material: PLAYER_HEAD
     position: 15
     colour: b
-    bind: None
+    bind: inprogress
   admin_edit:
     name: Admin Edit.
     material: REDSTONE_TORCH
@@ -48,7 +48,7 @@ admin_edit:
     material: JACK_O_LANTERN
     position: 15
     colour: b
-    bind: None
+    bind: inprogress
   return:
     name: Return
     material: RED_STAINED_GLASS_PANE
@@ -86,13 +86,13 @@ create_quest:
     material: NETHER_STAR
     position: 23
     colour: b
-    bind: None
+    bind: inprogress
   PVP:
     name: PVP Related
     material: DIAMOND_SWORD
     position: 31
     colour: b
-    bind: None
+    bind: inprogress
   return:
     name: Return
     material: RED_STAINED_GLASS_PANE
