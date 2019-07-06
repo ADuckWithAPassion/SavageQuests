@@ -1,0 +1,148 @@
+LENTHOL:
+  questRewardText:
+  - thanks for that
+  - here, take this
+  questCooldown:
+  - '20'
+  questRequirementLocation:
+  - '0'
+  - '61'
+  - '0'
+  - world
+  name:
+  - LENTHOL
+  questIntroText:
+  - Hi, my name is kody
+  - please give me a diamond sword
+  type:
+  - Collect Items For NPC.
+  questRewardLocation:
+  - '0'
+  - '60'
+  - '0'
+  - world
+TahPie:
+  questRewardText:
+  - Damn, ty for that
+  - this took a few days to code
+  - have this
+  questCooldown:
+  - '10'
+  questRequirementLocation:
+  - '0'
+  - '60'
+  - '0'
+  - world
+  name:
+  - TahPie
+  questIntroText:
+  - Hi, my name is TahPie
+  - I coded this plugin
+  - give me items
+  type:
+  - Collect Items For NPC.
+  questRewardLocation:
+  - '0'
+  - '61'
+  - '0'
+  - world
+Seeker:
+  questIntroText:
+  - Hey, could you find Hider?
+  - I think he is at the end of the parkour.
+  questCooldown:
+  - '5'
+  questNPCName:
+  - Hider
+  name:
+  - Seeker
+  questRewardText:
+  - Wow, you found him
+  - Nice job!
+  questRequirementLocation:
+  - '-390'
+  - '22'
+  - '-265'
+  - world
+  type:
+  - Find Another NPC.
+  questRewardLocation:
+  - '-402'
+  - '25'
+  - '-259'
+  - world
+Hurrri:
+  questIntroText:
+  - Hi, stranger
+  - Please give me stuff
+  - ty
+  questCooldown:
+  - '50'
+  name:
+  - Hurrri
+  questRewardText:
+  - Thanks for that :)
+  questRequirementLocation:
+  - '0'
+  - '61'
+  - '0'
+  - world
+  type:
+  - Collect Items For NPC.
+  questRewardLocation:
+  - '0'
+  - '60'
+  - '0'
+  - world
+EagleBearer:
+  questIntroText:
+  - I dont like spiders and zombies :(
+  - please kill them for me
+  questCooldown:
+  - '60'
+  questMobsName:
+  - spider
+  - zombie
+  name:
+  - EagleBearer
+  questRewardText:
+  - I was just kidding... you didn't have to kill them
+  questMobsNumber:
+  - '4'
+  - '4'
+  questRequirementLocation:
+  - '0'
+  - '61'
+  - '0'
+  - world
+  type:
+  - Defeat Mobs.
+  questRewardLocation:
+  - '0'
+  - '60'
+  - '0'
+  - world
+25h9:
+  questIntroText:
+  - Hello friend!
+  - How are you today.
+  - Could I have 3 diamond blocks and a diamond sword please :D
+  questCooldown:
+  - '40'    
+  name:
+  - 25h9
+  questRewardText:
+  - Thank you for the items
+  - Here, take this.
+  questRequirementLocation:
+  - '-390'
+  - '22'
+  - '-265'
+  - world
+  type:
+  - Collect Items For NPC.
+  questRewardLocation:
+  - '-390'
+  - '21'
+  - '-265'
+  - world

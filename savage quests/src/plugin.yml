@@ -1,0 +1,13 @@
+name: savagequests
+version: 1.0
+api-version: 1.14
+main: tahpie.savage.savagequests.SavageQuest
+permissions:
+  savagequests.quest.manage:
+    description: Allows management of quest system.
+    default: op
+commands:
+  quest:
+    description: Savage Quests
+    usage: "Usage: /<command>"
+    default: true

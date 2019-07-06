@@ -1,0 +1,108 @@
+main_menu:
+  current_quest:
+    name: Current Quest Info
+    material: GREEN_STAINED_GLASS_PANE
+    position: 11
+    colour: b
+    bind: currentQuest, complete
+  quest_stats:
+    name: View Quest Stats.
+    material: PURPLE_STAINED_GLASS_PANE
+    position: 13
+    colour: b
+    bind: None
+  look_party:
+    name: Look For A Party.
+    material: PLAYER_HEAD
+    position: 15
+    colour: b
+    bind: None
+  admin_edit:
+    name: Admin Edit.
+    material: REDSTONE_TORCH
+    position: 43
+    colour: 8
+    bind: child
+  exit:
+    name: Exit
+    material: RED_STAINED_GLASS_PANE
+    position: 44
+    colour: c
+    bind: exit
+ 
+admin_edit:
+  create_quest:
+    name: Create Quest.
+    material: VILLAGER_SPAWN_EGG
+    position: 11
+    colour: b
+    bind: child
+  delete_quest:
+    name: Delete Quest.
+    material: TNT
+    position: 13
+    colour: b
+    bind: deleteQuest, complete
+  boss_menu:
+    name: Boss Menu.
+    material: JACK_O_LANTERN
+    position: 15
+    colour: b
+    bind: None
+  return:
+    name: Return
+    material: RED_STAINED_GLASS_PANE
+    position: 44
+    colour: c
+    bind: return
+ 
+create_quest:
+  collect_items:
+    name: Collect Items For NPC.
+    material: COOKED_BEEF
+    position: 11
+    colour: b
+    bind: setType, getName, getQuestIntroText, getQuestRewardText, getQuestRewardLocation, getQuestRequirementsLocation, getQuestCooldown, complete
+  defeat_mobs:
+    name: Defeat Mobs.
+    material: BONE
+    position: 13
+    colour: b
+    bind: setType, getName, getQuestIntroText, getQuestRewardText, getQuestRewardLocation, getQuestMobsName, getQuestMobsNumber, getQuestCooldown, complete
+  adventure:
+    name: Adventure.
+    material: OAK_BOAT
+    position: 15
+    colour: b
+    bind: setType, getName, getQuestIntroText, getQuestRewardText, getQuestRewardLocation, getQuestDestinationLocation, getQuestCooldown, complete
+  find_npc:
+    name: Find Another NPC.
+    material: GLASS_BOTTLE
+    position: 21
+    colour: b
+    bind: setType, getName, getQuestIntroText, getQuestRewardText, getQuestRewardLocation, getQuestNPCName, getQuestCooldown, complete
+  defeat_boss:
+    name: Defeat Boss.
+    material: NETHER_STAR
+    position: 23
+    colour: b
+    bind: None
+  PVP:
+    name: PVP Related
+    material: DIAMOND_SWORD
+    position: 31
+    colour: b
+    bind: None
+  return:
+    name: Return
+    material: RED_STAINED_GLASS_PANE
+    position: 44
+    colour: c
+    bind: return
+numberOfLines:
+  Book:
+    name: Book
+    material: WRITTEN_BOOK
+    position: 1
+    colour: b
+    bind: line
