@@ -15,7 +15,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 
-import apallo.savage.savageclasses.SavageUtility;
 import tahpie.savage.savagequests.GUI;
 import tahpie.savage.savagequests.SavageQuest;
 
@@ -65,7 +64,7 @@ public class UIEvents implements Listener {
 
 			if(itemTag.equalsIgnoreCase("admin_edit")) {
 				if (!(player.hasPermission("savage.quest.manage"))) {
-					SavageUtility.displayMessage("Insufficient permissions.", player);
+					player.sendMessage("Insufficient permissions.");
 					return;
 				}
 			}
@@ -73,7 +72,7 @@ public class UIEvents implements Listener {
 			if(first_bind.equalsIgnoreCase("None")){
 			}
 			else if(first_bind.equalsIgnoreCase("inprogress")) {
-				SavageUtility.displayMessage("Sorry, this feature is currently in development. It will be released soon!", player);
+				player.sendMessage("Sorry, this feature is currently in development. It will be released soon!");
 			}
 			else if(first_bind.equalsIgnoreCase("child")) {
 				savagequests.gui.createGUI(itemTag, player);

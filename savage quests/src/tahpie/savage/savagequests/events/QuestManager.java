@@ -1,8 +1,10 @@
 package tahpie.savage.savagequests.events;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import org.bukkit.ChatColor;
+import org.bukkit.craftbukkit.libs.jline.internal.Log;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -52,6 +54,7 @@ public class QuestManager implements Listener{
 	
 	@EventHandler
 	public void right_click(NPCRightClickEvent event) {
+		
 		if(!(questMapper.containsKey(event.getClicker().getName()))) {
 			questMapper.put(event.getClicker().getName(), "empty");
 			counter.put(event.getClicker().getName(), 0);
@@ -90,7 +93,7 @@ public class QuestManager implements Listener{
 			}
 		}
 	}
-	public void abandon_quest(Player player) {
+	public static void abandon_quest(Player player) {
 		if(questMapper.containsKey(player.getName())) {
 			String  npc = questMapper.get(player.getName());
 			if(characterToClass.containsKey(npc)) {
@@ -121,6 +124,11 @@ public class QuestManager implements Listener{
 				}
 			}
 		}
+	}
+
+	public static void clearQuests() {
+		characterToClass = new HashMap<String, QuestNPC>();
+		questMapper = new HashMap<String, String>();
 	}
 }
 

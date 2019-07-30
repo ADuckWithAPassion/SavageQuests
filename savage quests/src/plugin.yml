@@ -11,3 +11,7 @@ commands:
     description: Savage Quests
     usage: "Usage: /<command>"
     default: true
+  ban:
+    description: Visibly Ban
+    usage: "Usage: /<command>"
+    default: true

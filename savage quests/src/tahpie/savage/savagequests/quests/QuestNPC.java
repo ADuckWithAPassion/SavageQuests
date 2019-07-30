@@ -1,7 +1,10 @@
 package tahpie.savage.savagequests.quests;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -9,10 +12,14 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
+import org.bukkit.craftbukkit.libs.jline.internal.Log;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
+import tahpie.savage.savagequests.SavageQuest;
 import tahpie.savage.savagequests.SavageUtility;
 import tahpie.savage.savagequests.events.QuestManager;
 
@@ -23,7 +30,7 @@ public abstract class QuestNPC{
 	public ArrayList<String> questRewardText;
 	public Location questRewardLocation;
 	public Integer CD;
-		
+	
 	public Integer timeout = 10;
 	
 	public HashMap <String, Long> cooldown = new HashMap<String, Long>();
@@ -32,16 +39,26 @@ public abstract class QuestNPC{
 	public HashMap<String,Boolean> complete = new HashMap<String,Boolean>();
 	
 	public ArrayList<Integer> target = new ArrayList<Integer>();
+	private HashMap<String, ArrayList<String>> data;
 		
 	public QuestNPC(HashMap<String,ArrayList<String>> args) {
+		this.data = args;
 		this.name = args.get("name").get(0);
 		this.type = args.get("type").get(0);
 		this.CD = Integer.parseInt(args.get("questCooldown").get(0));
 		this.questIntroText = args.get("questIntroText");
 		this.questRewardText = args.get("questRewardText");
 		ArrayList<String> loc = args.get("questRewardLocation");
+		ArrayList<String> cd = args.get("onCooldown");
 		this.questRewardLocation = new Location(Bukkit.getWorld(loc.get(3)), Integer.parseInt(loc.get(0)), Integer.parseInt(loc.get(1)), Integer.parseInt(loc.get(2)));
-		
+		if(cd != null) {
+			for(String onCooldown: cd) {
+				String playerName = onCooldown.split(",")[0];
+				long playerCooldown = Long.valueOf(onCooldown.split(",")[1].replaceAll(" ", ""));
+				cooldown(playerName, playerCooldown);
+			}	
+		}
+
 		QuestManager.characterToClass.put(name, this);
 		
 	}
@@ -92,7 +109,23 @@ public abstract class QuestNPC{
 		}
 		
 		if (System.currentTimeMillis() <= cooldown.get(player.getName())) {			
-			SavageUtility.displayClassMessage("This quest is on cooldown for another "+ (cooldown.get(player.getName()) - System.currentTimeMillis())/1000 + " seconds.", player);
+			long time = (cooldown.get(player.getName()) - System.currentTimeMillis())/1000;
+			String unit = " seconds.";
+			if(time >= 24*60*60) {
+				time = Math.round(time/(24*60*60)); // convert to days
+				unit = " days.";
+			}
+			else if(time >= 60*60) {
+				time = Math.round(time/(60*60)); // convert to hours
+				unit = " hours.";
+			}
+			else if(time >= 60) {
+				time = Math.round(time/(60)); // convert to minutes
+				unit = " minutes.";
+			}
+			// otherwise continue as seconds.
+			
+			SavageUtility.displayClassMessage("This quest is on cooldown for another "+ time + unit, player);
 			player.playSound(player.getLocation(),Sound.ENTITY_VILLAGER_NO,10,1);
 			return;
 		}
@@ -112,9 +145,16 @@ public abstract class QuestNPC{
 	}
 
 	public void cooldown(Player player) {
-		cooldown.replace(player.getName(), System.currentTimeMillis() + (long)CD*1000);
-		counter.replace(player.getName(), 0);
+		cooldown.put(player.getName(), System.currentTimeMillis() + (long)CD*1000);
+		counter.put(player.getName(), 0);
 		QuestManager.questMapper.put(player.getName(), "empty");
+	}
+	public void cooldown(String player, long manualCooldown) {
+		cooldown.put(player, manualCooldown);
+		counter.put(player, 0);
+		timeoutMap.put(player, 0l);
+		counter.put(player, 0);
+		QuestManager.questMapper.put(player, "empty");
 	}
 
 	public static void removeInventoryItems(PlayerInventory inv, Material type, int amount) {
@@ -143,5 +183,21 @@ public abstract class QuestNPC{
 	
 		ItemStack[] items = chest.getInventory().getContents();
 		return items;	
+	}
+	public void save() {
+		try {
+			ArrayList<String> cooldowns = new ArrayList<String>();
+			for(Entry<String, Long> cd: cooldown.entrySet()) {
+				if(cd.getValue() >= System.currentTimeMillis()) {
+					cooldowns.add(cd.getKey()+", "+cd.getValue());					
+				}
+			}
+			data.put("onCooldown", cooldowns);
+        	SavageQuest.NpcConfig.set(name ,data);
+			SavageQuest.NpcConfig.save(SavageQuest.NpcConfigFile);
+		} catch (IOException e) {
+			Log.info("ERROR SAVING ON EXIT, CONFIG FIX REQUIRED. CONTACT TAH_PIE");
+			e.printStackTrace();
+		}
 	}
 }

@@ -11,6 +11,7 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -260,6 +261,26 @@ public class GUI implements Listener {
 		}
 		player.openInventory(inv);
     }
+    public void bossMenu(Player player, List<Method> binds) {
+    	binds.remove(0);
+    	if(binds.isEmpty()) {
+    		return;
+    	}
+		Inventory inv = Bukkit.createInventory(null, 45, ChatColor.translateAlternateColorCodes('&', "&d"+"&8[&9SR&8]&7 Delete Quest"));
+		ItemStack item;
+		for(NPC npc: CitizensAPI.getNPCRegistry().sorted()) {
+			if(!(QuestManager.characterToClass.containsKey(npc.getName()))) {
+				continue;
+			}
+			item = createItem(npc.getName(), "PLAYER_HEAD", "b", "remove", String.valueOf(npc.getId()));
+			SkullMeta skullmeta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.PLAYER_HEAD);
+			skullmeta.setLore(item.getItemMeta().getLore());
+	        skullmeta.setOwner(npc.getName()); // THIS CAUSES LAG. MIGHT REMOVE IN FUTURE/FIND BETTER METHOD.
+	        item.setItemMeta(skullmeta);
+	        inv.addItem(item);
+		}
+		player.openInventory(inv);    	
+    }
     public void remove(Player player, int id) {
     	NPC npc = CitizensAPI.getNPCRegistry().getById(id);
     	for(String name: QuestManager.questMapper.keySet()) {
@@ -281,11 +302,9 @@ public class GUI implements Listener {
     	player.closeInventory();
     }
     public void abandon(Player player) {
-    	if(QuestManager.questMapper.containsKey(player.getName())) {
-    		QuestManager.questMapper.remove(player.getName());
-    		SavageUtility.displayClassMessage("Your quest has been abandoned", player);
-    		player.closeInventory();
-    	}
+    	QuestManager.abandon_quest(player);
+    	SavageUtility.displayClassMessage("Your quest has been abandoned", player);
+    	player.closeInventory();
     }
     public void complete(Player player, List<Method> binds) {
     	HashMap<String,ArrayList<String>> data = new HashMap<String,ArrayList<String>>(); 

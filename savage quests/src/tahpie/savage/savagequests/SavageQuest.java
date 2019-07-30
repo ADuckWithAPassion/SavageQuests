@@ -21,14 +21,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.Objects;
 
 public class SavageQuest extends JavaPlugin implements Listener{
 
-	public File NpcConfigFile;
-	public File GUIConfigFile;
-	public FileConfiguration GUIConfig;
-	public FileConfiguration NpcConfig;
+	public static File NpcConfigFile;
+	public static File GUIConfigFile;
+	public static FileConfiguration GUIConfig;
+	public static FileConfiguration NpcConfig;
 	public GUI gui;
 	public UIEvents uievents;
 	public QuestManager questmanager;
@@ -53,6 +54,10 @@ public class SavageQuest extends JavaPlugin implements Listener{
 		}
 		
 		getLogger().info("enabled!");
+	}
+	@Override
+	public void onDisable() {
+		saveQuests();
 	}
 
 	private void registerCommands(){
@@ -102,8 +107,23 @@ public class SavageQuest extends JavaPlugin implements Listener{
 		}, 0L, 100L);
 		
 	}
+	public static FileConfiguration getNpcConfig() {
+		return NpcConfig;
+	}
+	public static FileConfiguration getGUIConfig() {
+		return GUIConfig;
+	}
+	public static void reloadNpcConfig() {
+		try {
+			NpcConfig.load(NpcConfigFile);
+		} catch (IOException | InvalidConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	@SuppressWarnings("unchecked")
-	private void loadQuests() {
+	public static void loadQuests() {
+		QuestManager.clearQuests();
 		for(String NPC: NpcConfig.getKeys(false)) {
 			HashMap<String,ArrayList<String>>map = new HashMap<String,ArrayList<String>>();
 			
@@ -122,6 +142,12 @@ public class SavageQuest extends JavaPlugin implements Listener{
 			else if(map.get("type").get(0).equalsIgnoreCase("Find Another NPC.")){
 				new FindAnotherNPC(map);
 			}
+		}
+	}
+	@SuppressWarnings("unchecked")
+	public static void saveQuests() {
+		for(Entry<String, QuestNPC> questNPC: QuestManager.characterToClass.entrySet()) {
+			questNPC.getValue().save();
 		}
 	}
 }

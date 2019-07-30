@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.craftbukkit.libs.jline.internal.Log;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -43,15 +44,18 @@ public class Defeat_Mobs extends QuestNPC{
 	@Override
 	public boolean quest_event(Player player, Object event) {
 		LivingEntity entity = ((EntityDeathEvent)event).getEntity();
-		
-		if(questMobsNameMap.get(player.getName()).contains(entity.getType().getName())) {
-			int index = questMobsNameMap.get(player.getName()).indexOf(entity.getType().getName());
+		Log.info(entity.getName());
+		Log.info(entity.getName().replaceAll("[^A-Za-z]", ""));
+		Log.info(questMobsNameMap);
+//		if(questMobsNameMap.get(player.getName()).contains(entity.getType().getName())) { // nametags disabled so this shouldn't be problematic... I hope
+		if(questMobsNameMap.get(player.getName()).contains(entity.getName().replaceAll("[^A-Za-z]", ""))) { 
+			int index = questMobsNameMap.get(player.getName()).indexOf(entity.getName().replaceAll("[^A-Za-z]", ""));
 			ArrayList<Integer> playerMobsNumber = questMobsNumberMap.get(player.getName());
 			ArrayList<String> playerMobsName = questMobsNameMap.get(player.getName());
 			
 			playerMobsNumber.set(index, playerMobsNumber.get(index)-1);
 			
-			player.sendMessage(ChatColor.RED+String.valueOf(playerMobsNumber.get(index))+" "+StringUtils.capitalize(playerMobsName.get(index))+"s "+ChatColor.DARK_PURPLE+" remaining");
+			player.sendMessage(ChatColor.RED+String.valueOf(playerMobsNumber.get(index))+" "+StringUtils.capitalize(playerMobsName.get(index))+"s"+ChatColor.DARK_PURPLE+" remaining");
 			if(playerMobsNumber.get(index)==0) {
 				playerMobsName.remove(index);
 				playerMobsNumber.remove(index);
@@ -69,8 +73,7 @@ public class Defeat_Mobs extends QuestNPC{
 			complete.put(player.getName(), false);
 			QuestManager.questMapper.put(player.getName(),name);
 			questMobsNameMap.put(player.getName(), new ArrayList<String>(questMobsName));
-			questMobsNumberMap.put(player.getName(), new ArrayList<Integer>(questMobsNumber));
-			
+			questMobsNumberMap.put(player.getName(), new ArrayList<Integer>(questMobsNumber));	
 		}
 	}
 	@Override
