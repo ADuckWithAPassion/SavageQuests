@@ -10,7 +10,10 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.SkullType;
+import org.bukkit.craftbukkit.libs.jline.internal.Log;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -20,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.material.SpawnEgg;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -69,7 +73,29 @@ public class GUI implements Listener {
 		player.openInventory(inv);
 	}
 	public ItemStack createItem(String name, String material, String colour, String tag, String parent) {
-		ItemStack item = new ItemStack(Material.getMaterial(material));
+		ItemStack item = null;
+		try {
+			if(material.contains("STAINED_GLASS_PANE")) {
+				String glassColour = material.substring(0, material.indexOf("_"));
+				item = new ItemStack(Material.STAINED_GLASS_PANE,1, DyeColor.valueOf(glassColour).getDyeData());
+			}
+			else if(material.contains("SPAWN_EGG")) {
+				String mobName = material.substring(0, material.indexOf("_"));
+				item = new SpawnEgg(EntityType.valueOf(mobName)).toItemStack(1);
+			}
+			else if(material.contains("SKULL_ITEM")) {
+	            item = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
+			}
+			else {
+				item = new ItemStack(Material.getMaterial(material));	
+			}
+		}
+		catch(NullPointerException error) {
+			Log.info("*** ITEM ERROR IN SAVAGE QUEST GUI ***");
+			Log.info(material);
+			Log.info(name);
+		}
+		
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(ChatColor.getByChar(colour)+name);
 		List<String> lore = meta.getLore();
@@ -190,9 +216,9 @@ public class GUI implements Listener {
     		return;
     	}
 		Inventory inv = Bukkit.createInventory(null, 45, ChatColor.translateAlternateColorCodes('&', "&d"+"&8[&9SR&8]&7 Current Quest Info"));
-		SkullMeta  skullmeta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.PLAYER_HEAD);
+		SkullMeta  skullmeta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.SKULL_ITEM);
         skullmeta.setOwner(npc);
-        ItemStack item = createItem("Quest NPC", "PLAYER_HEAD", "b", "abandon", "");
+        ItemStack item = createItem("Quest NPC", "SKULL_ITEM", "b", "abandon", "");
         List<String> lore = item.getItemMeta().getLore();
         lore.set(1, npc);
         skullmeta.setDisplayName(ChatColor.YELLOW+"Abandon Quest");
@@ -201,7 +227,7 @@ public class GUI implements Listener {
         inv.setItem(4,item);
         
         HashMap<String,String>itemMap=new HashMap<String,String>();
-        itemMap.put("Collect Items For NPC", "COOKED_BEEF");
+        itemMap.put("Collect Items For NPC.", "COOKED_BEEF");
         itemMap.put("Defeat Mobs.", "BONE");
         itemMap.put("Adventure.", "OAK_BOAT");
         itemMap.put("Find Another NPC.", "GLASS_BOTTLE");
@@ -252,8 +278,8 @@ public class GUI implements Listener {
 			if(!(QuestManager.characterToClass.containsKey(npc.getName()))) {
 				continue;
 			}
-			item = createItem(npc.getName(), "PLAYER_HEAD", "b", "remove", String.valueOf(npc.getId()));
-			SkullMeta skullmeta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.PLAYER_HEAD);
+			item = createItem(npc.getName(), "SKULL_ITEM", "b", "remove", String.valueOf(npc.getId()));
+			SkullMeta skullmeta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.SKULL_ITEM);
 			skullmeta.setLore(item.getItemMeta().getLore());
 	        skullmeta.setOwner(npc.getName()); // THIS CAUSES LAG. MIGHT REMOVE IN FUTURE/FIND BETTER METHOD.
 	        item.setItemMeta(skullmeta);
@@ -272,8 +298,8 @@ public class GUI implements Listener {
 			if(!(QuestManager.characterToClass.containsKey(npc.getName()))) {
 				continue;
 			}
-			item = createItem(npc.getName(), "PLAYER_HEAD", "b", "remove", String.valueOf(npc.getId()));
-			SkullMeta skullmeta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.PLAYER_HEAD);
+			item = createItem(npc.getName(), "SKULL_ITEM", "b", "remove", String.valueOf(npc.getId()));
+			SkullMeta skullmeta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.SKULL_ITEM);
 			skullmeta.setLore(item.getItemMeta().getLore());
 	        skullmeta.setOwner(npc.getName()); // THIS CAUSES LAG. MIGHT REMOVE IN FUTURE/FIND BETTER METHOD.
 	        item.setItemMeta(skullmeta);
@@ -346,7 +372,7 @@ public class GUI implements Listener {
         NPC npc = registry.createNPC(EntityType.PLAYER, information.get(player.getName()).get("name").get(0));
         npc.spawn(player.getLocation());
         
-        player.sendMessage(ChatColor.AQUA+"An NPC Has Been Created.");
+        SavageUtility.displayClassMessage(ChatColor.AQUA+"An NPC Has Been Created.", player);
        
     }
 }	

@@ -73,7 +73,7 @@ public class QuestManager implements Listener{
 		else if(questMapper.get(event.getClicker().getName()).equals(event.getNPC().getName()) && character){
 			QuestNPC quest = characterToClass.get(event.getNPC().getName());
 			quest.quest(event.getClicker());
-			if(quest.complete.containsKey(event.getClicker().getName())) {
+			if(quest.complete.containsKey(event.getClicker().getName()) && !quest.type.equalsIgnoreCase("Collect Items For NPC.")) {
 				SavageUtility.displayClassMessage("You Have Already Started This Quest."+ChatColor.DARK_PURPLE+" /Quest" + ChatColor.GOLD+" to view quest information.", event.getClicker());		
 			}
 		}

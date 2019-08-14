@@ -1,19 +1,21 @@
 LENTHOL:
+  questIntroText:
+  - Hi, my name is kody
+  - please give me a diamond sword
+  questCooldown:
+  - '20'
+  onCooldown:
+  - TahPie, 100000000000000
   questRewardText:
   - thanks for that
   - here, take this
-  questCooldown:
-  - '20'
+  name:
+  - LENTHOL
   questRequirementLocation:
   - '0'
   - '61'
   - '0'
   - world
-  name:
-  - LENTHOL
-  questIntroText:
-  - Hi, my name is kody
-  - please give me a diamond sword
   type:
   - Collect Items For NPC.
   questRewardLocation:
@@ -22,23 +24,24 @@ LENTHOL:
   - '0'
   - world
 TahPie:
+  questIntroText:
+  - Hi, my name is TahPie
+  - I coded this plugin
+  - give me items
+  questCooldown:
+  - '10'
+  onCooldown: []
   questRewardText:
   - Damn, ty for that
   - this took a few days to code
   - have this
-  questCooldown:
-  - '10'
+  name:
+  - TahPie
   questRequirementLocation:
   - '0'
   - '60'
   - '0'
   - world
-  name:
-  - TahPie
-  questIntroText:
-  - Hi, my name is TahPie
-  - I coded this plugin
-  - give me items
   type:
   - Collect Items For NPC.
   questRewardLocation:
@@ -54,22 +57,18 @@ Seeker:
   - '5'
   questNPCName:
   - Hider
+  onCooldown: []
   name:
   - Seeker
   questRewardText:
   - Wow, you found him
   - Nice job!
-  questRequirementLocation:
-  - '-390'
-  - '22'
-  - '-265'
-  - world
   type:
   - Find Another NPC.
   questRewardLocation:
-  - '-402'
-  - '25'
-  - '-259'
+  - '-313'
+  - '4'
+  - '594'
   - world
 Hurrri:
   questIntroText:
@@ -78,6 +77,7 @@ Hurrri:
   - ty
   questCooldown:
   - '50'
+  onCooldown: []
   name:
   - Hurrri
   questRewardText:
@@ -94,55 +94,52 @@ Hurrri:
   - '60'
   - '0'
   - world
-EagleBearer:
+Quester:
   questIntroText:
-  - I dont like spiders and zombies :(
-  - please kill them for me
-  questCooldown:
-  - '60'
+  - Hey, these &1Corrupted paladins are destroying my land!
+  - Please kill them for me
+  - Thanks
   questMobsName:
-  - spider
-  - zombie
+  - CorruptedPaladin
+  - Spider
+  questCooldown:
+  - '1000'
+  onCooldown: []
   name:
-  - EagleBearer
+  - Quester
   questRewardText:
-  - I was just kidding... you didn't have to kill them
+  - Nice job
+  - Take this
   questMobsNumber:
-  - '4'
-  - '4'
-  questRequirementLocation:
-  - '0'
-  - '61'
-  - '0'
-  - world
+  - '2'
+  - '3'
   type:
   - Defeat Mobs.
   questRewardLocation:
-  - '0'
-  - '60'
-  - '0'
-  - world
-25h9:
+  - '1261'
+  - '4'
+  - '1255'
+  - world2
+GimmieItem:
   questIntroText:
-  - Hello friend!
-  - How are you today.
-  - Could I have 3 diamond blocks and a diamond sword please :D
+  - Hello &bFriend
+  - gimmie item
   questCooldown:
-  - '40'    
+  - '10'
+  onCooldown: []
   name:
-  - 25h9
+  - GimmieItem
   questRewardText:
-  - Thank you for the items
-  - Here, take this.
+  - Ty
   questRequirementLocation:
-  - '-390'
-  - '22'
-  - '-265'
-  - world
+  - '1269'
+  - '5'
+  - '1267'
+  - world2
   type:
   - Collect Items For NPC.
   questRewardLocation:
-  - '-390'
-  - '21'
-  - '-265'
-  - world
+  - '1269'
+  - '6'
+  - '1267'
+  - world2

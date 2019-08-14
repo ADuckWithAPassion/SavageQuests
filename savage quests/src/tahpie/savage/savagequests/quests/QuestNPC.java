@@ -13,6 +13,7 @@ import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.craftbukkit.libs.jline.internal.Log;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -96,7 +97,7 @@ public abstract class QuestNPC{
 		}
 		
 		player.updateInventory();
-		player.playSound(player.getLocation(),Sound.ENTITY_PLAYER_LEVELUP,10,1);
+		player.playSound(player.getLocation(),Sound.LEVEL_UP,10,1);
 
 		cooldown(player);
 	}
@@ -126,7 +127,7 @@ public abstract class QuestNPC{
 			// otherwise continue as seconds.
 			
 			SavageUtility.displayClassMessage("This quest is on cooldown for another "+ time + unit, player);
-			player.playSound(player.getLocation(),Sound.ENTITY_VILLAGER_NO,10,1);
+			player.playSound(player.getLocation(),Sound.VILLAGER_NO,10,1);
 			return;
 		}
 		if (talkingTo.get(player.getName()) != name || System.currentTimeMillis() >= timeoutMap.get(player.getName())){
@@ -157,15 +158,17 @@ public abstract class QuestNPC{
 		QuestManager.questMapper.put(player, "empty");
 	}
 
-	public static void removeInventoryItems(PlayerInventory inv, Material type, int amount) {
-	    for (ItemStack is : inv.getContents()) {
+	public static void removeInventoryItems(Player player, Material type, int amount) {
+		PlayerInventory inv = player.getInventory();
+	    for (int i=0; i<inv.getSize(); i++) {
+	    	ItemStack is = inv.getItem(i);
 	        if (is != null && is.getType() == type) {
 	            int newamount = is.getAmount() - amount;
 	            if (newamount > 0) {
 	                is.setAmount(newamount);
 	                return;
 	            } else {
-	            	is.setAmount(0);
+	            	player.getInventory().setItem(i, new ItemStack(Material.AIR));
 	                amount = -newamount;
 	                if (amount == 0) {
 	                	return;
@@ -177,7 +180,7 @@ public abstract class QuestNPC{
 	public ItemStack[] getChest(Player player, Location location) {
 		Block block = player.getWorld().getBlockAt(location);
 		if(!(block.getState() instanceof Chest)) {
-			player.sendMessage(ChatColor.DARK_RED+"Chest not found.");
+			player.sendMessage(ChatColor.DARK_RED+"Chest not found. - Message TahPie");
 		}
 		Chest chest = (Chest) block.getState();
 	
@@ -196,7 +199,7 @@ public abstract class QuestNPC{
         	SavageQuest.NpcConfig.set(name ,data);
 			SavageQuest.NpcConfig.save(SavageQuest.NpcConfigFile);
 		} catch (IOException e) {
-			Log.info("ERROR SAVING ON EXIT, CONFIG FIX REQUIRED. CONTACT TAH_PIE");
+			Log.info("ERROR SAVING ON EXIT, CONFIG FIX REQUIRE (CORRUPTED???). CONTACT TAHPIE");
 			e.printStackTrace();
 		}
 	}

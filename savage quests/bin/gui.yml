@@ -13,13 +13,13 @@ main_menu:
     bind: inprogress
   look_party:
     name: Look For A Party.
-    material: PLAYER_HEAD
+    material: SKULL_ITEM
     position: 15
     colour: b
     bind: inprogress
   admin_edit:
     name: Admin Edit.
-    material: REDSTONE_TORCH
+    material: REDSTONE_TORCH_ON
     position: 43
     colour: 8
     bind: child
@@ -71,7 +71,7 @@ create_quest:
     bind: setType, getName, getQuestIntroText, getQuestRewardText, getQuestRewardLocation, getQuestMobsName, getQuestMobsNumber, getQuestCooldown, complete
   adventure:
     name: Adventure.
-    material: OAK_BOAT
+    material: BOAT
     position: 15
     colour: b
     bind: setType, getName, getQuestIntroText, getQuestRewardText, getQuestRewardLocation, getQuestDestinationLocation, getQuestCooldown, complete

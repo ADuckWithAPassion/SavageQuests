@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.libs.jline.internal.Log;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 import tahpie.savage.savagequests.GUI;
 import tahpie.savage.savagequests.SavageQuest;
+import tahpie.savage.savagequests.SavageUtility;
 
 public class UIEvents implements Listener {
 	SavageQuest savagequests;
@@ -64,7 +66,7 @@ public class UIEvents implements Listener {
 
 			if(itemTag.equalsIgnoreCase("admin_edit")) {
 				if (!(player.hasPermission("savage.quest.manage"))) {
-					player.sendMessage("Insufficient permissions.");
+					SavageUtility.displayClassMessage(ChatColor.RED+"Insufficient permissions.",player);
 					return;
 				}
 			}
@@ -110,9 +112,11 @@ public class UIEvents implements Listener {
 						method = cls.getDeclaredMethod(bind, Player.class, List.class);
 						binds.add(method);
 					} catch (NoSuchMethodException | SecurityException e1) {
-						player.sendMessage(ChatColor.DARK_RED+bind+" is broken - contact TahPie");
+						Log.info("Debugger (Ignore unless people complain that a menu is not opening)");
+						Log.info("Bind that was not found: "+bind);
+						// player.sendMessage(ChatColor.DARK_RED+bind+" is broken - contact TahPie");
 						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						// e1.printStackTrace();
 					}
 				}
 				try {

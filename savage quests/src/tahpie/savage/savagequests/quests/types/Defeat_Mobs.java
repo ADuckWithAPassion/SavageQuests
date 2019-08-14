@@ -54,8 +54,15 @@ public class Defeat_Mobs extends QuestNPC{
 			ArrayList<String> playerMobsName = questMobsNameMap.get(player.getName());
 			
 			playerMobsNumber.set(index, playerMobsNumber.get(index)-1);
-			
-			player.sendMessage(ChatColor.RED+String.valueOf(playerMobsNumber.get(index))+" "+StringUtils.capitalize(playerMobsName.get(index))+"s"+ChatColor.DARK_PURPLE+" remaining");
+			if(playerMobsNumber.get(index) >= 2) {
+				SavageUtility.displayClassMessage(ChatColor.RED+String.valueOf(playerMobsNumber.get(index))+" "+ChatColor.DARK_PURPLE+StringUtils.capitalize(playerMobsName.get(index)).replaceAll("(\\p{Ll})(\\p{Lu})","$1 $2")+"s"+ChatColor.RED+" remaining",player);				
+			}
+			else if(playerMobsNumber.get(index) == 1) {
+				SavageUtility.displayClassMessage(ChatColor.RED+String.valueOf(playerMobsNumber.get(index))+" "+ChatColor.DARK_PURPLE+StringUtils.capitalize(playerMobsName.get(index)).replaceAll("(\\p{Ll})(\\p{Lu})","$1 $2")+ChatColor.RED+" remaining",player);								
+			}
+			else {
+				SavageUtility.displayClassMessage(ChatColor.RED+"No more "+ChatColor.DARK_PURPLE+StringUtils.capitalize(playerMobsName.get(index)).replaceAll("(\\p{Ll})(\\p{Lu})","$1 $2")+"s "+ChatColor.RED+"remaining",player);												
+			}
 			if(playerMobsNumber.get(index)==0) {
 				playerMobsName.remove(index);
 				playerMobsNumber.remove(index);
@@ -85,7 +92,7 @@ public class Defeat_Mobs extends QuestNPC{
 				for(String monster: questMobsNameMap.get(player.getName())) {
 					if(target.equalsIgnoreCase(monster)) {
 						int num = questMobsNumber.get(i) - questMobsNumberMap.get(player.getName()).get(i);
-						progress.add(String.valueOf(monster+": "+String.valueOf(num)+"/"+String.valueOf(questMobsNumber.get(i))));
+						progress.add(String.valueOf(monster.replaceAll("(\\p{Ll})(\\p{Lu})","$1 $2")+": "+String.valueOf(num)+"/"+String.valueOf(questMobsNumber.get(i))));
 					}
 					i++;
 				}	
